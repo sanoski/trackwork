@@ -1,0 +1,184 @@
+{
+  "project": {
+    "id": "1187",
+    "name": "Project 1187",
+    "kind": "sponsored",
+    "line": null,
+    "job": "Tie replacement, MP 12 to MP 31",
+    "base": "Millbrook",
+    "deadline": "2026-08-15",
+    "goal_ties": 4000,
+    "confirmed_work_orders": 0,
+    "work_order_locations": [],
+    "daily_target": 300,
+    "status": "complete",
+    "work_week_note": "",
+    "created": "2026-09-05"
+  },
+  "locations": [],
+  "daily_log": [
+    {
+      "date": "2026-07-21",
+      "day": "Tuesday",
+      "ties": 310,
+      "relay_ties": 0,
+      "vs_target": 10,
+      "running_total": 310,
+      "remaining": 3690,
+      "location": null,
+      "tracks": []
+    },
+    {
+      "date": "2026-07-22",
+      "day": "Wednesday",
+      "ties": 295,
+      "relay_ties": 0,
+      "vs_target": -5,
+      "running_total": 605,
+      "remaining": 3395,
+      "location": null,
+      "tracks": []
+    },
+    {
+      "date": "2026-07-23",
+      "day": "Thursday",
+      "ties": 340,
+      "relay_ties": 0,
+      "vs_target": 40,
+      "running_total": 945,
+      "remaining": 3055,
+      "location": null,
+      "tracks": []
+    },
+    {
+      "date": "2026-07-27",
+      "day": "Monday",
+      "ties": 325,
+      "relay_ties": 0,
+      "vs_target": 25,
+      "running_total": 1270,
+      "remaining": 2730,
+      "location": null,
+      "tracks": []
+    },
+    {
+      "date": "2026-07-28",
+      "day": "Tuesday",
+      "ties": 360,
+      "relay_ties": 0,
+      "vs_target": 60,
+      "running_total": 1630,
+      "remaining": 2370,
+      "location": null,
+      "tracks": []
+    },
+    {
+      "date": "2026-07-29",
+      "day": "Wednesday",
+      "ties": 330,
+      "relay_ties": 0,
+      "vs_target": 30,
+      "running_total": 1960,
+      "remaining": 2040,
+      "location": null,
+      "tracks": []
+    },
+    {
+      "date": "2026-07-30",
+      "day": "Thursday",
+      "ties": 290,
+      "relay_ties": 0,
+      "vs_target": -10,
+      "running_total": 2250,
+      "remaining": 1750,
+      "location": null,
+      "tracks": []
+    },
+    {
+      "date": "2026-07-31",
+      "day": "Friday",
+      "ties": 380,
+      "relay_ties": 0,
+      "vs_target": 80,
+      "running_total": 2630,
+      "remaining": 1370,
+      "location": null,
+      "tracks": []
+    },
+    {
+      "date": "2026-08-03",
+      "day": "Monday",
+      "ties": 345,
+      "relay_ties": 0,
+      "vs_target": 45,
+      "running_total": 2975,
+      "remaining": 1025,
+      "location": null,
+      "tracks": []
+    },
+    {
+      "date": "2026-08-04",
+      "day": "Tuesday",
+      "ties": 300,
+      "relay_ties": 0,
+      "vs_target": 0,
+      "running_total": 3275,
+      "remaining": 725,
+      "location": null,
+      "tracks": []
+    },
+    {
+      "date": "2026-08-05",
+      "day": "Wednesday",
+      "ties": 335,
+      "relay_ties": 0,
+      "vs_target": 35,
+      "running_total": 3610,
+      "remaining": 390,
+      "location": null,
+      "tracks": []
+    },
+    {
+      "date": "2026-08-06",
+      "day": "Thursday",
+      "ties": 310,
+      "relay_ties": 0,
+      "vs_target": 10,
+      "running_total": 3920,
+      "remaining": 80,
+      "location": null,
+      "tracks": []
+    },
+    {
+      "date": "2026-08-07",
+      "day": "Friday",
+      "ties": 240,
+      "relay_ties": 0,
+      "vs_target": -60,
+      "running_total": 4160,
+      "remaining": -160,
+      "location": null,
+      "tracks": []
+    }
+  ],
+  "equipment_downtime": [
+    {
+      "date": "2026-07-24",
+      "machine": "Tie Inserter",
+      "down_at": "07:30",
+      "resumed": "15:30",
+      "duration_minutes": 480,
+      "notes": "Hydraulic pump failed; parts overnight"
+    },
+    {
+      "date": "2026-07-31",
+      "machine": "Tamper",
+      "down_at": "13:10",
+      "resumed": "14:25",
+      "duration_minutes": 75,
+      "notes": "Clogged fuel filter"
+    }
+  ],
+  "switches": [],
+  "derails": []
+}

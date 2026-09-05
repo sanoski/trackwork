@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VRS MOW Tracker</title>
+  <link rel="stylesheet" href="/static/style.css?v=__ASSETVER__">
+</head>
+<body>
+
+  <!-- Sign-in screen (VRS-branded) -->
+  <div id="login-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="login-title">
+    <div class="login-screen">
+      <div class="login-card">
+        <div class="login-brand">
+          <svg class="vrs-mark" viewBox="0 0 132 80" role="img" aria-label="Vermont Rail System">
+            <polygon points="2,80 34,8 66,80"/>
+            <polygon points="66,80 98,8 130,80"/>
+            <polygon points="40,80 52,52 64,80" class="vrs-notch"/>
+            <polygon points="68,80 80,52 92,80" class="vrs-notch"/>
+            <polygon points="54,80 66,60 78,80" class="vrs-notch"/>
+          </svg>
+          <div class="vrs-word">VERMONT RAIL SYSTEM</div>
+          <div class="login-app" id="login-title">MOW Tracker</div>
+        </div>
+        <form id="login-form" novalidate>
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" name="email" autocomplete="email" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" name="password" autocomplete="current-password" required>
+          </div>
+          <p id="login-error" class="msg msg-error hidden"></p>
+          <button type="submit" id="login-submit" class="btn-primary btn-full">Sign In</button>
+        </form>
+        <p class="login-tagline">Maintenance of Way &middot; Tie Installation Tracking</p>
+        <div class="login-train" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generate Report wizard (two-pane, branded, dismissible) -->
+  <div id="report-modal" class="report-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="report-title">
+    <div class="report-wizard">
+      <button id="report-close" class="report-close" type="button" aria-label="Close">&times;</button>
+
+      <div class="wiz-controls">
+        <div class="wiz-brand">
+          <svg class="vrs-mark" viewBox="0 0 132 80" role="img" aria-label="Vermont Rail System">
+            <polygon points="2,80 34,8 66,80"/>
+            <polygon points="66,80 98,8 130,80"/>
+            <polygon points="40,80 52,52 64,80" class="vrs-notch"/>
+            <polygon points="68,80 80,52 92,80" class="vrs-notch"/>
+            <polygon points="54,80 66,60 78,80" class="vrs-notch"/>
+          </svg>
+          <div class="wiz-brand-text">
+            <div class="vrs-word">GENERATE REPORT</div>
+            <div class="login-app" id="report-title">Compose &amp; email a progress report</div>
+          </div>
+        </div>
+
+        <form id="report-form" novalidate>
+          <div class="wiz-section">
+            <div class="wiz-h">Scope</div>
+            <p class="wiz-ctx" id="report-scope"></p>
+            <div class="form-group hidden" id="wiz-worksite-group">
+              <label for="wiz-worksite">Worksite</label>
+              <select id="wiz-worksite"><option value="">Whole line (all worksites)</option></select>
+            </div>
+          </div>
+
+          <div class="wiz-section">
+            <div class="wiz-h">Time period</div>
+            <div class="form-group">
+              <select id="wiz-period-mode">
+                <option value="week">Most recent reported week</option>
+                <option value="pick">Pick a week…</option>
+                <option value="full">Full project (all dates)</option>
+                <option value="range">Date range…</option>
+              </select>
+            </div>
+            <div class="form-group hidden" id="wiz-week-group">
+              <label for="wiz-week">Any date in the week</label>
+              <input type="date" id="wiz-week">
+            </div>
+            <div class="wiz-row hidden" id="wiz-range-group">
+              <div class="form-group"><label for="wiz-from">From</label><input type="date" id="wiz-from"></div>
+              <div class="form-group"><label for="wiz-to">To</label><input type="date" id="wiz-to"></div>
+            </div>
+          </div>
+
+          <div class="wiz-section">
+            <div class="wiz-h">Include</div>
+            <div class="form-group">
+              <label for="wiz-ties">Ties</label>
+              <select id="wiz-ties">
+                <option value="both">New &amp; relay</option>
+                <option value="new">New ties only</option>
+                <option value="relay">Relay ties only</option>
+                <option value="none">No ties</option>
+              </select>
+            </div>
+            <div class="wiz-checks" id="wiz-company-checks">
+              <label class="wiz-check"><input type="checkbox" id="wiz-switches" checked> Switches</label>
+              <label class="wiz-check"><input type="checkbox" id="wiz-derails" checked> Derails</label>
+            </div>
+            <label class="wiz-check" id="wiz-itemize-row"><input type="checkbox" id="wiz-itemize"> Itemize each switch &amp; derail <span class="wiz-tag">verbose</span></label>
+            <p class="wiz-hint" id="wiz-itemize-hint">Off: all switches (and all derails) are summed into one chart + table each. On: every switch and derail gets its own diagram and table, a longer report.</p>
+            <div class="wiz-checks">
+              <label class="wiz-check"><input type="checkbox" id="wiz-charts" checked> Charts</label>
+              <label class="wiz-check" id="wiz-downtime-row"><input type="checkbox" id="wiz-downtime" checked> Equipment downtime</label>
+            </div>
+          </div>
+
+          <div class="wiz-section wiz-future">
+            <div class="wiz-h">Rail installation projects</div>
+            <label class="wiz-check wiz-disabled"><input type="checkbox" disabled> Include rail installation work <span class="wiz-soon">Coming soon</span></label>
+          </div>
+
+          <div class="wiz-section">
+            <div class="form-group">
+              <label for="report-email">Email report to</label>
+              <input type="email" id="report-email" name="email" autocomplete="email" placeholder="name@example.com" required>
+            </div>
+            <p id="report-msg" class="msg hidden"></p>
+            <div class="wiz-actions">
+              <button type="submit" id="report-submit" class="btn-primary">Generate &amp; Send</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="wiz-preview">
+        <div class="wiz-preview-head">Preview <span class="wiz-preview-note">approximate; the final PDF may differ slightly</span></div>
+        <div class="wiz-preview-body" id="wiz-preview-body">
+          <p class="wiz-preview-empty">Adjust the options to see a preview.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help & Guide (branded, dismissible) -->
+  <div id="help-modal" class="report-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <div class="help-card">
+      <button id="help-close" class="report-close" type="button" aria-label="Close">&times;</button>
+      <div class="help-head">
+        <svg class="vrs-mark help-mark" viewBox="0 0 132 80" role="img" aria-label="Vermont Rail System">
+          <polygon points="2,80 34,8 66,80"/>
+          <polygon points="66,80 98,8 130,80"/>
+          <polygon points="40,80 52,52 64,80" class="vrs-notch"/>
+          <polygon points="68,80 80,52 92,80" class="vrs-notch"/>
+          <polygon points="54,80 66,60 78,80" class="vrs-notch"/>
+        </svg>
+        <div>
+          <div class="vrs-word">HELP &amp; GUIDE</div>
+          <div class="login-app" id="help-title">VRS MOW Tracker</div>
+        </div>
+      </div>
+      <div class="help-body">
+
+        <!-- Audio guided tour -->
+        <div class="help-audio" id="help-audio-player">
+          <audio id="help-audio" preload="metadata" src="/static/help-narration.mp3?v=2"></audio>
+          <button id="help-audio-toggle" class="help-audio-btn" type="button" aria-label="Play audio guide">
+            <svg class="ha-icon ha-play" viewBox="0 0 24 24" aria-hidden="true"><polygon points="7,4 20,12 7,20"/></svg>
+            <svg class="ha-icon ha-pause hidden" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+          </button>
+          <div class="help-audio-main">
+            <div class="help-audio-title">Listen to the guided tour</div>
+            <div class="help-audio-sub" id="help-audio-sub">A spoken walkthrough of the sidebar and the report wizard</div>
+            <div class="help-audio-bar" id="help-audio-bar" role="slider" aria-label="Seek" tabindex="-1">
+              <div class="help-audio-fill" id="help-audio-fill"></div>
+            </div>
+            <div class="help-audio-time"><span id="help-audio-cur">0:00</span> / <span id="help-audio-dur">0:00</span></div>
+          </div>
+        </div>
+
+        <section class="help-sec">
+          <h3>The sidebar: lines, worksites, and jobs</h3>
+          <p>The sidebar lists your work. <b>Company lines</b> track ongoing railroad work and can have <b>worksites</b> beneath them (a yard, a siding, a town). <b>Sponsored projects</b> have a tie goal and a deadline.</p>
+          <ul>
+            <li>Tap a <b>line</b> to see the whole line, all worksites combined.</li>
+            <li>Tap a <b>worksite</b> under it to focus on just that site.</li>
+          </ul>
+          <p>Whatever you select here is what the dashboard shows and what a report covers by default.</p>
+        </section>
+
+        <section class="help-sec">
+          <h3>Log Work</h3>
+          <p>Tap <b>Log Work</b> in the sidebar (entry users and admins). One screen logs a day:</p>
+          <ul>
+            <li><b>Date:</b> today by default. Any date works, so you can catch up on last week.</li>
+            <li><b>Ties installed:</b> the day's total.</li>
+            <li><b>Of those, relay ties:</b> how many of the total were reclaimed ties. Relay is always part of the total, never on top of it.</li>
+            <li><b>Track:</b> optional. A day split across tracks is logged once per track with the same date; the second entry adds to the first.</li>
+            <li><b>Worksite:</b> on a company line, where the ties went in. A day belongs to one worksite.</li>
+            <li><b>Equipment downtime:</b> a row per machine, with the time down and the time back in service. The duration is worked out for you. Downtime can be submitted on its own.</li>
+          </ul>
+          <p>Running totals and the comparison to the daily target are recalculated by the app. You never type those.</p>
+        </section>
+
+        <section class="help-sec">
+          <h3>Correcting a day</h3>
+          <p>Tap <b>Edit</b> on a row in the tie log or the downtime log. You can change the ties, the relay ties, one track's portion of a split day, or move the day to another worksite. Everything downstream is recalculated. Downtime entries can be edited or deleted the same way.</p>
+        </section>
+
+        <section class="help-sec">
+          <h3>Manage: Switches &amp; Derails</h3>
+          <p>Each switch or derail is a named, dated record with a timber breakdown: for each length, how many were planned and how many went in, and whether that length is a head block. Tap <b>+ Add Switch</b> or <b>+ Add Derail</b>, fill in the name, date, and worksite, add a row per length, and save. Derails have a type: <b>stationary</b> (head block timbers), <b>portable</b> (no timbers), or <b>switch</b> (a switch-to-nowhere).</p>
+          <p>Diagrams show only timbers that were installed. Tables keep the full planned versus actual record. Switch and derail timbers count toward Total Timbers Installed but are tracked separately from the daily tie count.</p>
+        </section>
+
+        <section class="help-sec">
+          <h3>Manage: Worksites</h3>
+          <p>Company lines only. Add a worksite before logging work to it. Renaming keeps its history, because work is tied to the site's id, not its name. A worksite that still has work logged against it cannot be deleted.</p>
+        </section>
+
+        <section class="help-sec">
+          <h3>Manage: Projects and Users &amp; Settings (admins)</h3>
+          <ul>
+            <li><b>Projects:</b> create a sponsored project or a company line, edit its goal, deadline, and daily target, and set its status. Exactly one project is active at a time; making one active moves the previous one to complete. Archived projects leave the sidebar.</li>
+            <li><b>Users:</b> add the crew. <b>admin</b> does everything, <b>entry</b> logs and corrects work, <b>viewer</b> only reads. The last admin cannot be removed.</li>
+            <li><b>Email &amp; Names:</b> the organisation name on the report, the mail server, the From address, and who receives the weekly report. <b>Send Test</b> proves the mail settings.</li>
+            <li><b>Weekly Report:</b> turn the timer on, pick the day, time, and time zone. It sends once per week, for the Sunday-to-Saturday week that just ended, and shows the next run, the last run, and any error. <b>Send This Week's Report Now</b> sends it immediately.</li>
+            <li><b>AI (Claude):</b> create a personal token so Claude can log work for you. Each token is tied to one account, expires, and can be revoked.</li>
+          </ul>
+        </section>
+
+        <section class="help-sec">
+          <h3>Generating a report</h3>
+          <p>The <b>Report</b> button shows the current scope beside it, for example <span class="help-chip">Report · Full line</span> or <span class="help-chip">· St. Johnsbury</span>. It follows your sidebar selection. Tap it to open the wizard. A live <b>preview</b> sits on the right (or below, on a phone) and refreshes as you change options.</p>
+          <ul>
+            <li><b>Worksite:</b> the whole line or one specific site.</li>
+            <li><b>Time period:</b> the most recent reported week, a chosen week, the full project (first to last activity), or a date range.</li>
+            <li><b>Ties:</b> New and relay, New only, Relay only, or None.</li>
+            <li><b>Switches / Derails:</b> include turnout and derail timber work (company lines).</li>
+            <li><b>Itemize switch &amp; derail (verbose):</b> off by default, so all switches are summed into one "timbers by length" chart and one combined table, and derails likewise. On, every switch and derail gets its own diagram and table, which makes a much longer report.</li>
+            <li><b>Charts:</b> weekly production, cumulative totals, work composition, and by-worksite bars.</li>
+            <li><b>Equipment downtime:</b> the machine downtime log. It is line-level, so it turns off automatically when a single worksite is selected.</li>
+          </ul>
+          <p>Type the recipient's email and tap <b>Generate &amp; Send</b>. The email field starts blank on purpose.</p>
+        </section>
+
+        <section class="help-sec">
+          <h3>Reading the report</h3>
+          <ul>
+            <li><b>Company line:</b> leads with "Total Timbers Installed," then cards (switch timbers, switches, derails, new and relay ties, days worked), charts, switch and derail blocks, the tie log, and downtime.</li>
+            <li><b>Sponsored project:</b> leads with goal progress (remaining, percent complete, projected finish), output against target, and the daily log.</li>
+            <li><b>Consolidated switches and derails:</b> by default the report sums all switches into one chart and table and lists which ones are included. Turn on Itemize to see each one.</li>
+          </ul>
+        </section>
+
+        <section class="help-sec">
+          <h3>Other ways in</h3>
+          <p>Everything on this screen can also be done by talking to <b>Claude</b> once an admin connects it, or from the <b>command line</b> on the server. All three write the same data. The Claude and command line guides are in the project's docs folder.</p>
+        </section>
+
+        <section class="help-sec">
+          <h3>Coming soon</h3>
+          <p><b>Rail installation projects</b> shows up grayed out in the wizard as a placeholder for a future work stream. It does not do anything yet.</p>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- App shell -->
+  <div id="app">
+    <header id="header">
+      <div class="header-left">
+        <button id="sidebar-toggle" class="icon-btn hamburger" title="Toggle sidebar" aria-label="Toggle sidebar">
+          <span></span><span></span><span></span>
+        </button>
+        <svg class="vrs-mark header-mark" viewBox="0 0 132 80" role="img" aria-label="VRS MOW Tracker">
+          <polygon points="2,80 34,8 66,80"/>
+          <polygon points="66,80 98,8 130,80"/>
+          <polygon points="40,80 52,52 64,80" class="vrs-notch"/>
+          <polygon points="68,80 80,52 92,80" class="vrs-notch"/>
+          <polygon points="54,80 66,60 78,80" class="vrs-notch"/>
+        </svg>
+        <span id="project-title" class="project-title"></span>
+      </div>
+      <div class="header-right">
+        <span id="auth-info" class="auth-info"></span>
+        <button id="header-login-btn" class="btn-ghost hidden">Sign In</button>
+        <button id="generate-report-btn" class="btn-primary btn-sm hidden"><span class="btn-verb">Generate </span>Report<span class="btn-scope" id="report-btn-scope"></span></button>
+        <button id="logout-btn" class="btn-ghost hidden">Logout</button>
+      </div>
+    </header>
+
+    <div id="help-bar">
+      <button id="help-btn" class="help-bar-btn" type="button" aria-label="Open help and guide">
+        <span class="help-q" aria-hidden="true">?</span>
+        <span class="help-bar-label">Help &amp; Guide</span>
+        <span class="help-bar-hint">scopes, the report wizard, and what each option does</span>
+      </button>
+    </div>
+
+    <div class="app-layout">
+      <aside id="sidebar">
+        <div class="sidebar-inner">
+          <button id="log-data-btn" class="btn-primary btn-full btn-big hidden">Log Work</button>
+          <div id="project-list" class="project-list"></div>
+          <div id="manage-section" class="manage-section">
+            <div class="project-section-label">Manage</div>
+            <button id="nav-structures" class="nav-btn writer-only" type="button">Switches &amp; Derails</button>
+            <button id="nav-worksites" class="nav-btn writer-only" type="button">Worksites</button>
+            <button id="nav-projects" class="nav-btn admin-only" type="button">Projects</button>
+            <button id="nav-admin" class="nav-btn admin-only" type="button">Users &amp; Settings</button>
+          </div>
+        </div>
+      </aside>
+
+      <main id="main">
+        <div id="loading-state" class="state-view">
+          <div class="spinner"></div>
+          <p>Loading…</p>
+        </div>
+        <div id="empty-state" class="state-view hidden">
+          <p class="text-muted">Select a project from the sidebar.</p>
+        </div>
+        <div id="dashboard" class="hidden">
+          <!-- Filled dynamically -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Side panel: every editing screen renders its form here -->
+  <div id="panel-backdrop" class="hidden"></div>
+  <aside id="side-panel" class="side-panel hidden" aria-label="Editing panel">
+    <div class="panel-header">
+      <h3 id="panel-title">Log Work</h3>
+      <button id="close-panel-btn" class="icon-btn" aria-label="Close panel">&times;</button>
+    </div>
+    <div class="panel-body" id="panel-body"></div>
+  </aside>
+
+  <script src="/static/vendor/chart.umd.min.js"></script>
+  <script type="module" src="/static/js/main.js?v=__ASSETVER__"></script>
+</body>
+</html>

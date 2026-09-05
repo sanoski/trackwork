@@ -1,0 +1,6 @@
+# HTTPS for MOW Tracker. With a real host name Caddy gets a Let's Encrypt certificate on its
+# own; with "localhost" it issues a local certificate for a trial run.
+{$TRACKWORK_DOMAIN} {
+    encode gzip
+    reverse_proxy web:8000
+}

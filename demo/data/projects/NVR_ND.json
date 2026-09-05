@@ -1,0 +1,332 @@
+{
+  "project": {
+    "id": "NVR_ND",
+    "name": "Northern Valley Railroad, North Division",
+    "kind": "company",
+    "line": "NVR_ND",
+    "job": "",
+    "base": "Millbrook",
+    "deadline": null,
+    "goal_ties": null,
+    "confirmed_work_orders": 0,
+    "work_order_locations": [],
+    "daily_target": 300,
+    "status": "active",
+    "work_week_note": "",
+    "created": "2026-09-05"
+  },
+  "locations": [
+    {
+      "id": "cedar-falls",
+      "name": "Cedar Falls",
+      "notes": null
+    },
+    {
+      "id": "millbrook-yard",
+      "name": "Millbrook Yard",
+      "notes": null
+    }
+  ],
+  "daily_log": [
+    {
+      "date": "2026-08-17",
+      "day": "Monday",
+      "ties": 280,
+      "relay_ties": 0,
+      "vs_target": -20,
+      "running_total": 280,
+      "remaining": null,
+      "location": "millbrook-yard",
+      "tracks": []
+    },
+    {
+      "date": "2026-08-18",
+      "day": "Tuesday",
+      "ties": 305,
+      "relay_ties": 0,
+      "vs_target": 5,
+      "running_total": 585,
+      "remaining": null,
+      "location": "millbrook-yard",
+      "tracks": []
+    },
+    {
+      "date": "2026-08-19",
+      "day": "Wednesday",
+      "ties": 260,
+      "relay_ties": 60,
+      "vs_target": -40,
+      "running_total": 845,
+      "remaining": null,
+      "location": "millbrook-yard",
+      "tracks": []
+    },
+    {
+      "date": "2026-08-21",
+      "day": "Friday",
+      "ties": 240,
+      "relay_ties": 240,
+      "vs_target": -60,
+      "running_total": 1085,
+      "remaining": null,
+      "location": "millbrook-yard",
+      "tracks": []
+    },
+    {
+      "date": "2026-08-24",
+      "day": "Monday",
+      "ties": 245,
+      "relay_ties": 245,
+      "vs_target": -55,
+      "running_total": 1330,
+      "remaining": null,
+      "location": "cedar-falls",
+      "tracks": [
+        {
+          "track": "Track 2",
+          "ties": 150,
+          "relay_ties": 150
+        },
+        {
+          "track": "Track 3",
+          "ties": 95,
+          "relay_ties": 95
+        }
+      ]
+    },
+    {
+      "date": "2026-08-25",
+      "day": "Tuesday",
+      "ties": 140,
+      "relay_ties": 140,
+      "vs_target": -160,
+      "running_total": 1470,
+      "remaining": null,
+      "location": "cedar-falls",
+      "tracks": [
+        {
+          "track": "Track 3",
+          "ties": 140,
+          "relay_ties": 140
+        }
+      ]
+    },
+    {
+      "date": "2026-08-26",
+      "day": "Wednesday",
+      "ties": 220,
+      "relay_ties": 220,
+      "vs_target": -80,
+      "running_total": 1690,
+      "remaining": null,
+      "location": "cedar-falls",
+      "tracks": []
+    },
+    {
+      "date": "2026-08-28",
+      "day": "Friday",
+      "ties": 190,
+      "relay_ties": 190,
+      "vs_target": -110,
+      "running_total": 1880,
+      "remaining": null,
+      "location": "cedar-falls",
+      "tracks": []
+    },
+    {
+      "date": "2026-08-31",
+      "day": "Monday",
+      "ties": 310,
+      "relay_ties": 0,
+      "vs_target": 10,
+      "running_total": 2190,
+      "remaining": null,
+      "location": "millbrook-yard",
+      "tracks": []
+    },
+    {
+      "date": "2026-09-01",
+      "day": "Tuesday",
+      "ties": 295,
+      "relay_ties": 45,
+      "vs_target": -5,
+      "running_total": 2485,
+      "remaining": null,
+      "location": "millbrook-yard",
+      "tracks": []
+    },
+    {
+      "date": "2026-09-03",
+      "day": "Thursday",
+      "ties": 270,
+      "relay_ties": 270,
+      "vs_target": -30,
+      "running_total": 2755,
+      "remaining": null,
+      "location": "cedar-falls",
+      "tracks": []
+    },
+    {
+      "date": "2026-09-04",
+      "day": "Friday",
+      "ties": 255,
+      "relay_ties": 255,
+      "vs_target": -45,
+      "running_total": 3010,
+      "remaining": null,
+      "location": "cedar-falls",
+      "tracks": [
+        {
+          "track": "Track 1",
+          "ties": 255,
+          "relay_ties": 255
+        }
+      ]
+    }
+  ],
+  "equipment_downtime": [
+    {
+      "date": "2026-08-20",
+      "machine": "Spiker/Gauger",
+      "down_at": "08:00",
+      "resumed": "11:45",
+      "duration_minutes": 225,
+      "notes": "Broken spike feeder"
+    },
+    {
+      "date": "2026-08-27",
+      "machine": "Broom",
+      "down_at": "09:20",
+      "resumed": "10:05",
+      "duration_minutes": 45,
+      "notes": "Belt replaced"
+    },
+    {
+      "date": "2026-09-02",
+      "machine": "Tamper",
+      "down_at": "07:00",
+      "resumed": null,
+      "duration_minutes": null,
+      "notes": "Down for the day; electrical"
+    }
+  ],
+  "switches": [
+    {
+      "id": "millbrook-north-switch",
+      "name": "Millbrook North Switch",
+      "date": "2026-08-20",
+      "timbers": [
+        {
+          "length": 9,
+          "planned": 6,
+          "actual": 8,
+          "head_block": false
+        },
+        {
+          "length": 10,
+          "planned": 4,
+          "actual": 4,
+          "head_block": false
+        },
+        {
+          "length": 12,
+          "planned": 4,
+          "actual": 3,
+          "head_block": false
+        },
+        {
+          "length": 16,
+          "planned": 2,
+          "actual": 2,
+          "head_block": true
+        }
+      ],
+      "location": "millbrook-yard",
+      "notes": "No. 10 turnout"
+    },
+    {
+      "id": "millbrook-crossover",
+      "name": "Millbrook Crossover",
+      "date": "2026-08-27",
+      "timbers": [
+        {
+          "length": 9,
+          "planned": 8,
+          "actual": 8,
+          "head_block": false
+        },
+        {
+          "length": 11,
+          "planned": 4,
+          "actual": 4,
+          "head_block": false
+        },
+        {
+          "length": 13,
+          "planned": 2,
+          "actual": 2,
+          "head_block": false
+        },
+        {
+          "length": 16,
+          "planned": 2,
+          "actual": 2,
+          "head_block": true
+        }
+      ],
+      "location": "millbrook-yard",
+      "notes": null
+    },
+    {
+      "id": "cedar-falls-siding-switch",
+      "name": "Cedar Falls Siding Switch",
+      "date": "2026-09-02",
+      "timbers": [
+        {
+          "length": 9,
+          "planned": 6,
+          "actual": 6,
+          "head_block": false
+        },
+        {
+          "length": 12,
+          "planned": 3,
+          "actual": 3,
+          "head_block": false
+        },
+        {
+          "length": 14,
+          "planned": 2,
+          "actual": 0,
+          "head_block": false
+        },
+        {
+          "length": 16,
+          "planned": 2,
+          "actual": 2,
+          "head_block": true
+        }
+      ],
+      "location": "cedar-falls",
+      "notes": "14 ft timbers back-ordered"
+    }
+  ],
+  "derails": [
+    {
+      "id": "cedar-falls-derail",
+      "name": "Cedar Falls Derail",
+      "date": "2026-09-03",
+      "derail_type": "stationary",
+      "timbers": [
+        {
+          "length": 12,
+          "planned": 2,
+          "actual": 2,
+          "head_block": true
+        }
+      ],
+      "location": "cedar-falls",
+      "notes": null
+    }
+  ]
+}

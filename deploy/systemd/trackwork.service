@@ -1,0 +1,18 @@
+[Unit]
+Description=MOW Tracker (web app and weekly report timer)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=trackwork
+Group=trackwork
+WorkingDirectory=/opt/trackwork
+EnvironmentFile=/opt/trackwork/.env
+# Exactly one worker: the weekly report timer runs inside the process.
+ExecStart=/opt/trackwork/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1 --proxy-headers --forwarded-allow-ips 127.0.0.1
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

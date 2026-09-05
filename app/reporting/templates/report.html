@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VRS MOW Report</title>
+<style>
+@font-face { font-family: "Oswald"; font-weight: 400; src: url("{{ font_base }}/Oswald-Regular.ttf"); }
+@font-face { font-family: "Oswald"; font-weight: 600; src: url("{{ font_base }}/Oswald-SemiBold.ttf"); }
+@font-face { font-family: "Oswald"; font-weight: 700; src: url("{{ font_base }}/Oswald-Bold.ttf"); }
+{% include "report.css" %}
+</style>
+</head>
+<body>
+
+<div class="report-header">
+  <div class="brand-lockup">
+    <svg class="vrs-mark" viewBox="0 0 132 80" style="width:42pt;height:auto" role="img" aria-label="Vermont Rail System">
+      <polygon points="2,80 34,8 66,80" fill="#c1151b"/>
+      <polygon points="66,80 98,8 130,80" fill="#c1151b"/>
+      <polygon points="40,80 52,52 64,80" fill="#ffffff"/>
+      <polygon points="68,80 80,52 92,80" fill="#ffffff"/>
+      <polygon points="54,80 66,60 78,80" fill="#ffffff"/>
+    </svg>
+    <div class="brand-text">
+      <div class="wordmark">{{ org_name|upper }}</div>
+      <div class="brand-sub">Maintenance of Way</div>
+    </div>
+  </div>
+  <div class="report-id">
+    <div class="report-kind">{{ period_kind_label }}</div>
+    <div class="report-week">{{ period_date_label }}</div>
+  </div>
+</div>
+
+{% if empty %}
+  <p class="muted">No project in scope for this report.</p>
+{% endif %}
+
+{% for v in views %}
+<div class="proj">
+  <h2 class="proj-title">{{ v.title }}{% if v.scope_label %} <span class="breadcrumb">› {{ v.scope_label }}</span>{% endif %}</h2>
+  <div class="meta-line">{{ v.meta_parts|join('  |  ') }}</div>
+
+  {# ── Headline numbers ── #}
+  {% if v.is_company %}
+    <div class="hero">
+      <div class="h-label">Total Timbers Installed</div>
+      <div class="h-value">{{ v.company_cards.total_timbers|comma }}</div>
+    </div>
+    <div class="cards">
+      <div class="card"><div class="card-label">Switch Timbers</div><div class="card-value">{{ v.company_cards.switch_timbers|comma }}</div></div>
+      <div class="card"><div class="card-label">Switches</div><div class="card-value">{{ v.company_cards.switches }}</div></div>
+      <div class="card"><div class="card-label">Derails</div><div class="card-value">{{ v.company_cards.derails }}</div></div>
+      <div class="card"><div class="card-label">New / Relay Ties</div><div class="card-value">{{ v.company_cards.new_ties|comma }} / {{ v.company_cards.relay_ties|comma }}</div></div>
+      <div class="card"><div class="card-label">Days Worked</div><div class="card-value">{{ v.company_cards.days_worked }}</div></div>
+    </div>
+  {% else %}
+    <div class="cards">
+      <div class="card"><div class="card-label">Total Ties Installed</div><div class="card-value">{{ v.summary.total_ties|comma }}</div></div>
+      <div class="card"><div class="card-label">Remaining</div><div class="card-value">{{ v.summary.remaining|comma if v.summary.remaining is not none else '—' }}</div></div>
+      <div class="card"><div class="card-label">VS Schedule</div><div class="card-value {{ 'pos' if v.summary.vs_schedule >= 0 else 'neg' }}">{{ '+' if v.summary.vs_schedule >= 0 else '' }}{{ v.summary.vs_schedule|comma }}</div></div>
+      <div class="card"><div class="card-label">Avg Daily Output</div><div class="card-value">{{ v.summary.avg_daily_output|comma }}</div></div>
+      <div class="card"><div class="card-label">% Complete</div><div class="card-value">{{ (v.summary.percent_complete|string + '%') if v.summary.percent_complete is not none else '—' }}</div></div>
+      <div class="card"><div class="card-label">Projected Finish</div><div class="card-value">{{ v.summary.projected_finish.strftime('%b %d') if v.summary.projected_finish else '—' }}</div></div>
+    </div>
+    {% if v.show.charts and v.charts.progress_pct is not none %}
+      <div class="progress">
+        <div class="progress-text">Overall project progress</div>
+        <div class="progress-track"><div class="progress-fill" style="width: {{ [v.charts.progress_pct, 100]|min }}%"></div></div>
+      </div>
+    {% endif %}
+  {% endif %}
+
+  <p class="summary-line">{{ v.week_summary_line|safe }}</p>
+
+  {# ── Charts ── #}
+  {% if v.show.charts %}
+  <div class="charts">
+    {% if v.is_company %}
+      {% if v.charts.weekly %}<div class="chart"><h4>Weekly Timber Production</h4>{{ v.charts.weekly|safe }}</div>{% endif %}
+      {% if v.charts.cumulative %}<div class="chart"><h4>Cumulative Timbers</h4>{{ v.charts.cumulative|safe }}</div>{% endif %}
+      {% if v.charts.composition %}<div class="chart"><h4>Work Composition</h4>{{ v.charts.composition|safe }}</div>{% endif %}
+      {% if v.charts.per_worksite %}<div class="chart"><h4>By Worksite</h4>{{ v.charts.per_worksite|safe }}</div>{% endif %}
+    {% else %}
+      {% if v.charts.weekly_output %}<div class="chart"><h4>{% if period_kind == 'week' %}This Week's Output{% else %}Output by Week{% endif %}</h4>{{ v.charts.weekly_output|safe }}</div>{% endif %}
+      {% if v.charts.cumulative_target %}<div class="chart"><h4>Cumulative vs Target</h4>{{ v.charts.cumulative_target|safe }}</div>{% endif %}
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {# ── Switches ── #}
+  {% if v.show.switches and v.switches %}
+  {% set sw = v.switches %}
+  <div class="sec-h">Switches: {{ period_heading }}</div>
+  {% if sw.mode == 'summary' %}
+    {% set b = sw.block %}
+    <div class="entity consolidated">
+      <div class="entity-head"><b>{{ b.count }} switch{{ 'es' if b.count != 1 else '' }} {{ period_word }}</b> &middot; <span class="e-meta">{{ b.actual|comma }} timbers installed, planned {{ b.planned|comma }} ({{ b.var_str }})</span></div>
+      <div class="entity-grid">
+        <div class="entity-diagram">{% if b.chart %}{{ b.chart|safe }}<div class="chart-cap">Timbers installed, by length</div>{% endif %}</div>
+        <div class="entity-table">
+          <table class="timber-table"><thead><tr><th>Length</th><th>Planned</th><th>Actual</th></tr></thead><tbody>
+            {% for row in b.rows %}<tr><td>{{ row.length }}'{% if row.head_block %} <span class="hb-tag">HB</span>{% endif %}</td><td>{{ row.planned or '—' }}</td><td>{{ row.actual or '—' }}</td></tr>{% endfor %}
+            <tr><td>Total</td><td>{{ b.planned }}</td><td>{{ b.actual }}</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+      <div class="incl-cap">Switches included: {{ b.names|join(' · ') }}</div>
+    </div>
+  {% else %}
+    {% for s in sw.entities %}
+    <div class="entity">
+      <div class="entity-head"><b>{{ s.name }}</b> &middot; <span class="e-meta">{{ s.date }} | planned {{ s.planned }} / actual {{ s.actual }} ({{ s.var_str }})</span></div>
+      <div class="entity-grid">
+        <div class="entity-diagram">{{ s.svg|safe }}</div>
+        <div class="entity-table">
+          <table class="timber-table"><thead><tr><th>Length</th><th>Planned</th><th>Actual</th></tr></thead><tbody>
+            {% for row in s.rows %}<tr><td>{{ row.length }}'{% if row.head_block %} <span class="hb-tag">HB</span>{% endif %}</td><td>{{ row.planned or '—' }}</td><td>{{ row.actual or '—' }}</td></tr>{% endfor %}
+            <tr><td>Total</td><td>{{ s.planned }}</td><td>{{ s.actual }}</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% endif %}
+  {% endif %}
+
+  {# ── Derails ── #}
+  {% if v.show.derails and v.derails %}
+  {% set dr = v.derails %}
+  <div class="sec-h">Derails: {{ period_heading }}</div>
+  {% if dr.mode == 'summary' %}
+    {% set b = dr.block %}
+    <div class="entity consolidated">
+      <div class="entity-head"><b>{{ b.count }} derail{{ 's' if b.count != 1 else '' }} {{ period_word }}</b> &middot; <span class="e-meta">{{ b.actual|comma }} timbers installed, planned {{ b.planned|comma }} ({{ b.var_str }})</span></div>
+      <div class="entity-grid">
+        <div class="entity-diagram">{% if b.chart %}{{ b.chart|safe }}<div class="chart-cap">Timbers installed, by length</div>{% endif %}</div>
+        <div class="entity-table">
+          <table class="timber-table"><thead><tr><th>Length</th><th>Planned</th><th>Actual</th></tr></thead><tbody>
+            {% for row in b.rows %}<tr><td>{{ row.length }}'{% if row.head_block %} <span class="hb-tag">HB</span>{% endif %}</td><td>{{ row.planned or '—' }}</td><td>{{ row.actual or '—' }}</td></tr>{% endfor %}
+            <tr><td>Total</td><td>{{ b.planned }}</td><td>{{ b.actual }}</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+      <div class="incl-cap">Derails included: {{ b.names|join(' · ') }}</div>
+    </div>
+  {% else %}
+    {% for s in dr.entities %}
+    <div class="entity">
+      <div class="entity-head"><b>{{ s.name }}</b> &middot; <span class="e-meta">{{ s.date }}{% if s.derail_type %} · {{ s.derail_type }}{% endif %} | planned {{ s.planned }} / actual {{ s.actual }} ({{ s.var_str }})</span></div>
+      <div class="entity-grid">
+        <div class="entity-diagram">{{ s.svg|safe }}</div>
+        <div class="entity-table">
+          <table class="timber-table"><thead><tr><th>Length</th><th>Planned</th><th>Actual</th></tr></thead><tbody>
+            {% for row in s.rows %}<tr><td>{{ row.length }}'{% if row.head_block %} <span class="hb-tag">HB</span>{% endif %}</td><td>{{ row.planned or '—' }}</td><td>{{ row.actual or '—' }}</td></tr>{% endfor %}
+            <tr><td>Total</td><td>{{ s.planned }}</td><td>{{ s.actual }}</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% endif %}
+  {% endif %}
+
+  {# ── Tie production ── #}
+  {% if v.show.ties and v.ties %}
+  {% set t = v.ties %}
+  <div class="sec-h">{{ 'Tie Production' if v.is_company else 'Daily Log' }}: {{ period_heading }}</div>
+  <table class="data-table">
+    <thead><tr>
+      <th>Date</th><th>Day</th>
+      {% if t.ties_mode == 'both' and t.show_relay %}<th>New</th><th>Relay</th><th>Total</th>
+      {% elif t.ties_mode == 'new' %}<th>New Ties</th>
+      {% elif t.ties_mode == 'relay' %}<th>Relay Ties</th>
+      {% else %}<th>Ties</th>{% endif %}
+      <th>VS Target</th><th>Running Total</th><th>Remaining</th>
+    </tr></thead>
+    <tbody>
+    {% for r in t.rows %}
+      <tr>
+        <td>{{ r.date }}{% if r.track_note %}<div class="track-note">{{ r.track_note }}</div>{% endif %}</td>
+        <td>{{ r.day }}</td>
+        {% if t.ties_mode == 'both' and t.show_relay %}<td>{{ r.new|comma }}</td><td>{{ r.relay|comma if r.relay else '—' }}</td><td>{{ r.total|comma }}</td>
+        {% elif t.ties_mode == 'new' %}<td>{{ r.new|comma }}</td>
+        {% elif t.ties_mode == 'relay' %}<td>{{ r.relay|comma }}</td>
+        {% else %}<td>{{ r.total|comma }}</td>{% endif %}
+        <td class="{{ 'vpos' if r.vs_pos else 'vneg' }}">{{ '+' if r.vs_pos else '' }}{{ r.vs_target|comma }}</td>
+        <td>{{ r.running_total|comma }}</td>
+        <td>{{ r.remaining|comma if r.remaining is not none else '—' }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  {# ── Equipment downtime ── #}
+  {% if v.show.downtime and v.downtime %}
+  <div class="sec-h">Equipment Downtime: {{ period_heading }}</div>
+  <table class="downtime-table">
+    <thead><tr><th>Date</th><th>Machine</th><th>Down At</th><th>Resumed</th><th>Duration</th><th>Notes</th></tr></thead>
+    <tbody>
+    {% for e in v.downtime %}
+      <tr><td>{{ e.date }}</td><td>{{ e.machine }}</td><td>{{ e.down_at }}</td><td>{{ e.resumed }}</td><td>{{ e.duration }}</td><td>{{ e.notes }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+{% endfor %}
+
+<div class="footer">
+  <div class="footer-tag">Serving America's Industry with Pride</div>
+  <div class="footer-meta">{{ org_name }} &middot; {{ app_name }} &nbsp;|&nbsp; Generated {{ generated }} &nbsp;|&nbsp; CONFIDENTIAL</div>
+</div>
+
+</body>
+</html>

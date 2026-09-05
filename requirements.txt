@@ -1,0 +1,14 @@
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.9
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+python-jose[cryptography]>=3.3.0
+bcrypt>=4.0.0
+python-dotenv>=1.0.0
+slowapi>=0.1.9
+fastmcp>=4.0,<5
+weasyprint>=66
+jinja2>=3.1
+apscheduler>=3.10,<4
+tzdata>=2024.1

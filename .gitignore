@@ -1,0 +1,20 @@
+# Runtime data (DATA_DIR) and secrets
+/data/
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+
+# Generated output
+reports/
+logs/
+*.log
+
+# Editors and OS
+.DS_Store
+.claude/settings.local.json

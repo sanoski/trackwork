@@ -1,0 +1,19 @@
+{
+  "org_name": "Northern Valley Railroad",
+  "app_name": "MOW Tracker",
+  "report_recipients": [],
+  "report_sender": "",
+  "smtp": {
+    "host": "",
+    "port": 587,
+    "user": "",
+    "password": ""
+  },
+  "schedule": {
+    "enabled": true,
+    "day_of_week": "sun",
+    "hour": 8,
+    "minute": 0,
+    "timezone": "America/New_York"
+  }
+}

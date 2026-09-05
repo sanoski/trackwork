@@ -1,0 +1,116 @@
+/* VRS MOW report, brand-styled, print-tuned. Self-contained (no external CSS).
+   Headings use the bundled Oswald @font-face (declared in report.html); body uses an
+   installed sans so only headings depend on the bundle. */
+
+@page {
+  size: Letter; margin: 0.6in 0.55in 0.7in;
+  @bottom-center { content: element(report-footer); }
+}
+
+/* The browser preview (iframe) is screen/continuous media and ignores @page margins, so the
+   report would sit flush against the page edge. Mirror the @page margin as screen-only body
+   padding. WeasyPrint renders as print media and skips @media screen, so the PDF keeps its
+   @page margin with no doubling. */
+@media screen { body { padding: 0.6in 0.55in; } }
+
+* { box-sizing: border-box; }
+body {
+  font-family: "DejaVu Sans", "Liberation Sans", sans-serif;
+  color: #25323f; font-size: 9pt; line-height: 1.34; margin: 0;
+}
+h1, h2, h3, h4, .wordmark { font-family: "Oswald", "DejaVu Sans", sans-serif; font-weight: 600; }
+
+/* Header, VRS brand lockup */
+.report-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  border-bottom: 2.5pt solid #c1151b; padding-bottom: 6pt; margin-bottom: 9pt;
+}
+.brand-lockup { display: flex; align-items: center; gap: 9pt; }
+.vrs-mark { width: 42pt; height: auto; }
+.brand-text { line-height: 1; }
+.wordmark { font-size: 17pt; color: #c1151b; letter-spacing: .03em; font-weight: 700; line-height: 1; white-space: nowrap; }
+.brand-sub { color: #334b65; font-size: 7.5pt; letter-spacing: .22em; text-transform: uppercase; margin-top: 3pt; font-weight: 600; }
+.report-id { text-align: right; }
+.report-kind { color: #66727f; font-size: 7.5pt; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
+.report-week { color: #334b65; font-size: 10.5pt; font-weight: 700; margin-top: 2pt; font-family: "Oswald","DejaVu Sans",sans-serif; }
+
+/* Project section */
+.proj { margin-bottom: 10pt; }
+.proj + .proj { border-top: 0.5pt solid #d9dee4; padding-top: 12pt; }
+.proj-title { font-size: 14pt; color: #334b65; margin: 0; }
+.breadcrumb { color: #c1151b; font-weight: 600; }
+.meta-line { color: #66727f; font-size: 8pt; margin: 2pt 0 6pt; }
+.summary-line { font-size: 9.5pt; margin: 6pt 0; }
+
+/* Stat cards */
+.cards { display: flex; flex-wrap: wrap; gap: 6pt; margin: 6pt 0; }
+.card {
+  flex: 1 1 28%; min-width: 1.45in; background: #f4f6f8; border: 0.5pt solid #d9dee4;
+  border-radius: 4pt; padding: 6pt 8pt; text-align: center;
+}
+.card-label { color: #66727f; font-size: 6.5pt; letter-spacing: .04em; text-transform: uppercase; }
+.card-value { color: #334b65; font-size: 14pt; font-weight: 700; font-family: "Oswald","DejaVu Sans",sans-serif; margin-top: 1pt; }
+.card-value.pos { color: #1a7f4b; } .card-value.neg { color: #c1151b; }
+.hero {
+  background: #334b65; color: #fff; border-radius: 5pt; padding: 8pt 13pt; margin: 6pt 0;
+  display: flex; align-items: baseline; justify-content: space-between;
+}
+.hero .h-label { font-size: 8pt; letter-spacing: .05em; text-transform: uppercase; opacity: .85; }
+.hero .h-value { font-size: 22pt; font-weight: 700; font-family: "Oswald","DejaVu Sans",sans-serif; }
+
+/* Progress bar (sponsored) */
+.progress { margin: 8pt 0; }
+.progress-track { background: #d9dee4; border-radius: 99pt; height: 14pt; overflow: hidden; position: relative; }
+.progress-fill { background: #1a7f4b; height: 100%; }
+.progress-text { font-size: 8pt; color: #66727f; margin-bottom: 3pt; }
+
+/* Charts */
+.charts { display: flex; flex-wrap: wrap; gap: 9pt; margin: 6pt 0; }
+.chart { flex: 1 1 46%; min-width: 2.6in; }
+.chart h4 { color: #66727f; font-size: 8pt; text-transform: uppercase; letter-spacing: .03em; margin: 0 0 3pt; font-weight: 600; }
+
+/* Section headings */
+.sec-h { color: #66727f; font-size: 9pt; text-transform: uppercase; letter-spacing: .03em; margin: 9pt 0 3pt; font-weight: 700; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+.data-table th, .data-table td, .downtime-table th, .downtime-table td { border: 0.5pt solid #d9dee4; padding: 3pt 5pt; }
+.data-table th { background: #334b65; color: #fff; font-family: "Oswald","DejaVu Sans",sans-serif; font-weight: 600; text-align: right; }
+.data-table th:first-child, .data-table th:nth-child(2) { text-align: left; }
+.data-table td { text-align: right; }
+.data-table td:first-child, .data-table td:nth-child(2) { text-align: left; }
+.data-table tr:nth-child(even) td { background: #f4f6f8; }
+.data-table .vpos { color: #1a7f4b; font-weight: 700; }
+.data-table .vneg { color: #c1151b; font-weight: 700; }
+.track-note { color: #777; font-size: 7pt; }
+.downtime-table th { background: #7f1d1d; color: #fff; text-align: left; font-family: "Oswald","DejaVu Sans",sans-serif; }
+.downtime-table tr:nth-child(even) td { background: #fff5f5; }
+
+/* Switch / derail blocks */
+.entity { margin: 6pt 0; page-break-inside: avoid; }
+.entity-head { font-size: 9.5pt; margin-bottom: 3pt; }
+.entity-head b { color: #25323f; } .entity-head .e-meta { color: #66727f; font-size: 8pt; }
+.entity-grid { display: flex; gap: 10pt; align-items: flex-start; }
+.entity-diagram { flex: 0 0 2.7in; }
+.entity-table { flex: 1 1 auto; }
+.timber-table th, .timber-table td { border: 0.5pt solid #d9dee4; padding: 1.4pt 5pt; text-align: right; font-size: 8pt; }
+.timber-table th:first-child, .timber-table td:first-child { text-align: left; }
+.timber-table th { background: #334b65; color: #fff; font-weight: 600; }
+.timber-table tr:last-child td { background: #f4f6f8; font-weight: 700; }
+.hb-tag { background: rgba(217,154,22,.18); color: #9a6b0f; font-size: 7pt; padding: 0 3pt; border-radius: 3pt; }
+
+/* Consolidated (summary) switch/derail block */
+.entity.consolidated .entity-diagram { flex: 0 0 3.0in; }
+.chart-cap { color: #66727f; font-size: 7pt; text-align: center; margin-top: 1pt; text-transform: uppercase; letter-spacing: .03em; }
+.incl-cap { color: #66727f; font-size: 7.5pt; margin-top: 5pt; font-style: italic; }
+
+.footer { margin-top: 14pt; border-top: 0.5pt solid #d9dee4; padding-top: 6pt; text-align: center; }
+@media print {
+  /* Pull the footer into the page's bottom margin (a running element) so it repeats at the bottom
+     of every page and never spills onto a near-blank trailing page. The browser preview keeps it
+     in-flow at the end (running()/@page do not apply on screen). */
+  .footer { position: running(report-footer); margin-top: 0; }
+}
+.footer-tag { color: #c1151b; font-family: "Oswald","DejaVu Sans",sans-serif; font-weight: 600; font-size: 8.5pt; letter-spacing: .04em; }
+.footer-meta { color: #66727f; font-size: 7.5pt; margin-top: 2pt; }
+.muted { color: #66727f; }

@@ -1,0 +1,36 @@
+# MOW Tracker. `deploy/setup.sh` writes .env and creates the first admin; then `docker compose up -d`.
+services:
+  web:
+    build: .
+    image: trackwork:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATA_DIR: /data
+    volumes:
+      - trackwork-data:/data
+    expose:
+      - "8000"
+    # Running without Caddy (for example behind your own reverse proxy)? Publish the port instead:
+    # ports:
+    #   - "8000:8000"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      TRACKWORK_DOMAIN: ${TRACKWORK_DOMAIN:-localhost}
+    volumes:
+      - ./deploy/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - web
+
+volumes:
+  trackwork-data:
+  caddy-data:
+  caddy-config:
