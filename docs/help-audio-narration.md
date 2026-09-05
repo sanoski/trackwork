@@ -24,7 +24,7 @@ record of that feature: how it works, how to update the audio, and the narration
 - **Browsers and any CDN or caching proxy in front of the app cache the mp3.** Overwriting the
   file alone is not enough; visitors keep getting the stale audio until the cache expires. Bump
   `?v=N` so the URL changes and everything fetches fresh.
-- Current: **v2**, ~7 min 31 s, 192 kbps mono, ~10.8 MB.
+- Current: **v3**, ~10 min 59 s, 192 kbps mono, ~15.8 MB (recorded 2026-09-05, covers every screen).
 
 ## To update the narration
 
@@ -33,18 +33,16 @@ record of that feature: how it works, how to update the audio, and the narration
    Connecticut River Division", "Saint Johnsbury", "nine forty-two", "Sunday through Saturday").
 2. Generate a new mp3 from the script (ElevenLabs).
 3. Overwrite `app/static/help-narration.mp3` with the new render.
-4. Bump the version in `app/static/index.html`: change `help-narration.mp3?v=2` to `?v=3`.
+4. Bump the version in `app/static/index.html`: change `help-narration.mp3?v=3` to `?v=4`.
 5. Update the player's subtitle in `index.html` if the coverage changed (the line under
    "Listen to the guided tour").
 6. Commit both files. Verify it is live:
-   `curl -sI "https://YOUR-HOST/static/help-narration.mp3?v=3"` should show the new
+   `curl -sI "https://YOUR-HOST/static/help-narration.mp3?v=4"` should show the new
    `content-length`.
 
 ## Narration script
 
 The spoken text lives in `docs/help-narration-script.txt`, plain text with nothing but the words,
-so it can be pasted straight into a text-to-speech tool. It is the script for the next recording
-(version 3). The committed mp3 is still version 2, an older and shorter take that covers only the
-sidebar and the report wizard, so the player's subtitle says so until the new audio lands. If the
-wording is tweaked during recording, reconcile the text file so it stays the source of truth.
-Running time is roughly ten minutes.
+so it can be pasted straight into a text-to-speech tool. It is the script behind the current
+recording (version 3). If the wording is tweaked during a future recording, reconcile the text
+file so it stays the source of truth. Running time is roughly eleven minutes.
