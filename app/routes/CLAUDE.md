@@ -31,7 +31,7 @@ POST /api/projects/{id}/switches                    PATCH|DELETE /api/projects/{
 POST /api/projects/{id}/derails                     PATCH|DELETE /api/projects/{id}/derails/{derail_id}
 POST /api/projects/{id}/locations                   PATCH|DELETE /api/projects/{id}/locations/{location_id}
 GET  /api/equipment                 POST /api/equipment (admin)
-POST /api/reports/send (4/min)      POST /api/reports/preview (60/min)
+POST /api/reports/send (4/min)      POST /api/reports/preview (60/min)   POST /api/reports/pdf (10/min, download)
 GET|POST /api/admin/users           PATCH|DELETE /api/admin/users/{email}
 GET|PUT  /api/admin/settings        POST /api/admin/settings/test-email (4/min)
 GET  /api/admin/scheduler           POST /api/admin/scheduler/run-now

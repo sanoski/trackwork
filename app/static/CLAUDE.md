@@ -22,7 +22,7 @@ one `state` object in `state.js`. Screens that are not needed on every visit (`s
 | `projects.js` | sidebar tree, loading a project, worksite filtering, `refreshProject` |
 | `dashboard.js` | cards, tables, entity panels, row action buttons (`.row-act[data-act]`) |
 | `charts.js`, `diagrams.js` | Chart.js charts (vendored global `Chart`), switch/derail SVG |
-| `reports.js` | Generate Report wizard, live preview, scoped button label |
+| `reports.js` | Generate Report wizard, live preview, Download PDF, send, scoped button label |
 | `panel.js` | the one side panel: `openScreen(title, html)`, `closeScreen()` |
 | `entry.js` | Log Work (any date, relay ties, worksite, track) and Correct a Day |
 | `downtime.js` | incident rows in Log Work; Edit Downtime |

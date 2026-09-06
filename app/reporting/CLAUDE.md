@@ -4,7 +4,7 @@
 
 **Module directory:** `app/reporting/`
 **Files:** `run.py`, `data.py`, `options.py`, `charts.py`, `diagrams.py`, `render.py`,
-`email.py`, `templates/report.html`, `templates/report.css`, `templates/fonts/Oswald-*.ttf`.
+`email.py` (send + `report_filename`, shared with the portal download), `templates/report.html`, `templates/report.css`, `templates/fonts/Oswald-*.ttf`.
 
 ## Scope
 Turn projects (optionally scoped to one worksite) into a report: HTML for the portal preview,

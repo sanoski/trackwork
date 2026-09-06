@@ -171,3 +171,20 @@ def test_admin_mcp_tokens(clients):
     assert a.delete(f"/api/admin/mcp-tokens/{jti}").status_code == 200
     assert a.get("/api/admin/mcp-tokens").json()["tokens"][0]["revoked"] is True
     assert a.delete("/api/admin/mcp-tokens/nope").status_code == 404
+
+
+def test_report_pdf_download(clients):
+    """The wizard's Download PDF needs no mail server: any signed-in role gets the file."""
+    a, v, anon = clients["admin"], clients["viewer"], clients["anon"]
+    _project(a)
+    empty = v.post("/api/reports/pdf", json={"project_id": "TST", "period": {"mode": "full"}})
+    assert empty.status_code == 422                  # nothing logged yet, nothing to report
+    assert a.post("/api/projects/TST/log", json={"date": "2026-06-01", "ties": 100, "location": "Yard A"}).status_code == 201
+    assert anon.post("/api/reports/pdf", json={"project_id": "TST"}).status_code == 401
+    r = v.post("/api/reports/pdf", json={"project_id": "TST", "period": {"mode": "full"}})
+    assert r.status_code == 200, r.text
+    assert r.headers["content-type"] == "application/pdf"
+    assert r.headers["content-disposition"].endswith('.pdf"')
+    assert r.content.startswith(b"%PDF-")
+    r = v.post("/api/reports/pdf", json={"project_id": "TST", "location": "Yard A", "period": {"mode": "full"}})
+    assert r.status_code == 200 and "yard-a" in r.headers["content-disposition"]

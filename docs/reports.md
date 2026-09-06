@@ -67,7 +67,9 @@ separately so the office never mistakes reclaimed ties for new ones.
 active project to the configured recipients. Once per week, on the schedule you set.
 
 **The wizard.** The Report button in the app header. Pick scope, period, and options, watch
-the preview, type a recipient, send. The recipient is whatever you type.
+the preview, then either **Download PDF** (no mail server needed; the file is named the same
+way as the email attachment) or type a recipient and **Generate & Send**. The recipient is
+whatever you type.
 
 **The command line.**
 
@@ -83,7 +85,8 @@ scripts/cli.py report --detail itemized --from 2026-06-01 --to 2026-06-30 --no-e
 
 ## Testing without emailing anyone
 
-`--no-email` plus `-o` is the safe way to look at a report. Send Test under Email & Names
+`--no-email` plus `-o` is the safe way to look at a report from the command line, and
+Download PDF in the wizard is the same thing from the browser. Send Test under Email & Names
 proves the mail settings without sending a report. If you want the real thing delivered to
 yourself, use the wizard and type your own address.
 

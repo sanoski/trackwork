@@ -2,7 +2,7 @@ from datetime import date
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, Response
 from starlette.concurrency import run_in_threadpool
 
 from ..auth import get_current_user, read_permission, require_admin, require_writer
@@ -366,3 +366,32 @@ async def preview_report(
         reporting.build_html, projects, period, options,
         scope_label=scope_label, location=body.location, font_base="/report-assets/fonts")
     return HTMLResponse(html)
+
+
+@router.post("/reports/pdf")
+@limiter.limit("10/minute")
+async def download_report(
+    request: Request,
+    body: PreviewRequest,
+    _: User = Depends(get_current_user),
+):
+    """Build the PDF and hand it to the browser as a download, no email involved. Same scope,
+    composition, and period as the send route (one report path), and the same file name the
+    email attachment would carry, so an office without a mail server still gets the report."""
+    projects, scope_label = _report_scope(body)
+    period = reporting.resolve_period(projects, body.period)
+    if reporting.week_activity(projects, period.start, period.end) == 0:
+        where = "this worksite" if body.location else "this project"
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=f"No work was logged for {where} in the selected period, nothing to report.",
+        )
+    options = body.options or reporting.default_options(projects[0], body.location)
+    pdf = await run_in_threadpool(
+        reporting.build_pdf, projects, period, options,
+        scope_label=scope_label, location=body.location)
+    filename = reporting.report_filename(scope_label, period.start)
+    return Response(
+        content=pdf, media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )

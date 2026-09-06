@@ -25,6 +25,8 @@ CLI: `user list`, `user add`, `user update`, `user delete`.
   A saved password is never shown again; leaving the field blank on a later save keeps it.
 - **Send Test** sends a short message to an address you choose and reports the exact SMTP
   error if it fails.
+- Mail is optional. With no server configured, Generate & Send and the weekly timer report
+  a clear error, and Download PDF in the wizard still works for everyone.
 
 CLI: `settings show`, `settings set`, `settings test-email`.
 

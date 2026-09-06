@@ -63,7 +63,8 @@ One PDF, usually a single page, styled for the railroad. It leads with the numbe
 cares about, then charts, switch and derail blocks, the tie log, and downtime. The weekly
 timer inside the app sends it on the day and time you choose. Anyone signed in can also
 compose a report on demand: pick a worksite, a week, a date range, or the whole project,
-choose what to include, watch the live preview, and email it.
+choose what to include, watch the live preview, and email it or download the PDF. Email is
+optional: without a mail server the app still builds every report for download.
 
 ## Quick start (Docker)
 
@@ -83,7 +84,8 @@ asks you to create the first admin account, and starts the app behind Caddy. Ope
 Then, in the app, open **Users & Settings**:
 
 1. **Email & Names**: your organisation name, the SMTP server that sends mail, and who
-   receives the weekly report. Use **Send Test** to prove it works.
+   receives the weekly report. Use **Send Test** to prove it works. Skip the mail server
+   if you only want reports downloaded from the wizard.
 2. **Weekly Report**: the day, time, and time zone the report goes out.
 3. **Users**: add the crew. `entry` can log work, `viewer` can only look, `admin` can do
    everything.

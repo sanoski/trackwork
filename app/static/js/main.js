@@ -3,7 +3,7 @@
 import { state } from './state.js';
 import { checkAuth, initAuth, handleLogin, handleLogout, showLoginModal } from './auth.js';
 import { loadProjectList, loadProject } from './projects.js';
-import { openReportModal, closeReportModal, handleReportSubmit, wizSyncConditional, schedulePreview } from './reports.js';
+import { openReportModal, closeReportModal, handleReportSubmit, handleReportDownload, wizSyncConditional, schedulePreview } from './reports.js';
 import { openHelpModal, closeHelpModal, setupHelpAudio } from './help.js';
 import { openLogScreen, openEditDay } from './entry.js';
 import { openEditDowntime } from './downtime.js';
@@ -46,6 +46,7 @@ function bindStaticEvents() {
   on('generate-report-btn', 'click', openReportModal);
   on('report-close', 'click', closeReportModal);
   on('report-form', 'submit', handleReportSubmit);
+  on('report-download', 'click', handleReportDownload);
   on('report-form', 'change', () => { wizSyncConditional(); schedulePreview(); });
   ['wiz-week', 'wiz-from', 'wiz-to'].forEach(id => on(id, 'input', () => schedulePreview()));
   on('report-modal', 'click', (e) => { if (e.target.id === 'report-modal') closeReportModal(); });

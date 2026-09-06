@@ -254,8 +254,11 @@ button { cursor: pointer; font: inherit; border: none; outline: none; }
   margin-left: auto; background: #eef1f4; color: #8a939c; font-size: .62rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: .05em; padding: .1rem .4rem; border-radius: 99px;
 }
-.wiz-actions { margin-top: .5rem; }
-.wiz-actions .btn-primary { width: 100%; }
+.wiz-actions { margin-top: .5rem; display: flex; gap: .5rem; }
+.wiz-actions .btn-primary, .wiz-actions .btn-ghost { flex: 1 1 0; min-height: 44px; }
+.wiz-actions .btn-ghost { color: #334b65; border-color: #334b65; font-weight: 600; }
+.wiz-actions .btn-ghost:hover { background: #eef1f4; }
+.wiz-optional { color: #8a939c; font-weight: 400; font-size: .75rem; }
 
 .wiz-preview-head {
   padding: .7rem 1rem; border-bottom: 1px solid #d9dee4; color: #334b65; font-weight: 700;

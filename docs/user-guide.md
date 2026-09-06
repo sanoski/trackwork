@@ -96,6 +96,8 @@ name). Tap it to open the wizard, which has a live preview.
   range.
 - **What to include**: ties (new and relay, new only, relay only, none), switches, derails,
   charts, downtime, and whether to itemize every switch and derail or sum them up.
+- **Download PDF**: saves the report to your device (phones open it in the PDF viewer). Needs
+  no email setup.
 - **Send**: type the recipient's email and tap **Generate & Send**.
 
 [reports.md](reports.md) explains every section of the PDF.

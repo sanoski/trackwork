@@ -35,6 +35,8 @@ for Azure). Fill them in or set `MCP_AUTH_PROVIDER=token`.
 - **The weekly report never arrives**: open Users & Settings, Weekly Report. It shows whether
   the timer is enabled, the next run, the last run, and the last error. "Nothing to report"
   means no work was logged in the week that just ended, which is by design.
+- **No mail server at all**: the wizard's Download PDF works without one. Only Generate &
+  Send and the weekly timer need SMTP.
 - Run it by hand to see the full message:
   `scripts/cli.py report --no-email -o test.pdf` (builds the PDF without sending) or
   `scripts/cli.py schedule run-now`.

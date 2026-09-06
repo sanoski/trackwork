@@ -12,6 +12,14 @@ from .. import app_settings, mailer
 from ..structures import slugify
 
 
+def report_filename(scope_label: Optional[str], week_start: date) -> str:
+    """The PDF's file name, shared by the email attachment and the portal download so both
+    hand the office the same name: <app>_report_[<worksite>_]<week start>.pdf."""
+    cfg = app_settings.get_settings()
+    fname_loc = f"{slugify(scope_label)}_" if scope_label else ""
+    return f"{slugify(cfg.app_name)}_report_{fname_loc}{week_start}.pdf"
+
+
 def send_email(pdf_bytes: bytes, week_start: date, week_end: date,
                recipients: Optional[list[str]] = None,
                scope_label: Optional[str] = None) -> list[str]:
@@ -28,8 +36,7 @@ def send_email(pdf_bytes: bytes, week_start: date, week_end: date,
     label = f" ({scope_label})" if scope_label else ""
     span = f"{week_start.strftime('%b %d')} to {week_end.strftime('%b %d, %Y')}"
     subject = f"{cfg.org_name} {cfg.app_name} weekly report{label}: week of {span}"
-    fname_loc = f"{slugify(scope_label)}_" if scope_label else ""
-    filename = f"{slugify(cfg.app_name)}_report_{fname_loc}{week_start}.pdf"
+    filename = report_filename(scope_label, week_start)
 
     scope_line = f" for {scope_label}" if scope_label else ""
     covers = ("ties, switch timbers, and project totals for this worksite" if scope_label

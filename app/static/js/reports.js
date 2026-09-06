@@ -1,6 +1,6 @@
 /* The Generate Report wizard: scope, period, content toggles, live preview, and send. */
 import { state } from './state.js';
-import { api } from './api.js';
+import { api, errorDetail } from './api.js';
 import { escHtml, showMsg, clearMsg, locationName } from './util.js';
 
 /* Scope follows the view (current project + selected worksite) but every control is also
@@ -207,6 +207,44 @@ export async function handleReportSubmit(e) {
   let detail = data.detail;
   if (Array.isArray(detail)) detail = 'Please enter a valid email address.';
   showMsg(msgEl, detail || 'Could not send the report. Please try again.', 'error');
+  reset();
+}
+
+/* Download PDF: the same payload as Send, minus the email, returned as a file. The browser
+   saves it (desktop) or opens it in its PDF viewer (phones). Needs no mail server. */
+export async function handleReportDownload() {
+  const msgEl = document.getElementById('report-msg');
+  const btn   = document.getElementById('report-download');
+  const reset = () => { btn.disabled = false; btn.textContent = 'Download PDF'; };
+  btn.disabled = true;
+  btn.textContent = 'Building...';
+  showMsg(msgEl, 'Building the PDF. This can take a few seconds...', 'success');
+
+  const payload = reportPayload(null);
+  delete payload.email;
+  let res;
+  try {
+    res = await api('POST', '/api/reports/pdf', payload);
+  } catch {
+    showMsg(msgEl, 'Network error. Please try again.', 'error');
+    reset();
+    return;
+  }
+  if (!res) { closeReportModal(); return; }   // 401: the sign-in screen is showing
+  if (!res.ok) {
+    showMsg(msgEl, await errorDetail(res, 'Could not build the report. Please try again.'), 'error');
+    reset();
+    return;
+  }
+  const disp = res.headers.get('Content-Disposition') || '';
+  const m = disp.match(/filename="?([^";]+)"?/);
+  const filename = m ? m[1] : 'report.pdf';
+  const url = URL.createObjectURL(await res.blob());
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.rel = 'noopener';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+  showMsg(msgEl, `Saved ${filename}.`, 'success');
   reset();
 }
 

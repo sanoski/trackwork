@@ -21,7 +21,7 @@ from .data import (
     week_of,
     week_period,
 )
-from .email import send_email
+from .email import report_filename, send_email
 from .options import default_options
 from .render import build_html, build_pdf
 from .run import RunResult, run_report
@@ -43,6 +43,7 @@ __all__ = [
     "range_period",
     "build_html",
     "build_pdf",
+    "report_filename",
     "send_email",
     "RunResult",
     "run_report",

@@ -121,11 +121,12 @@
 
           <div class="wiz-section">
             <div class="form-group">
-              <label for="report-email">Email report to</label>
-              <input type="email" id="report-email" name="email" autocomplete="email" placeholder="name@example.com" required>
+              <label for="report-email">Email report to <span class="wiz-optional">(not needed to download)</span></label>
+              <input type="email" id="report-email" name="email" autocomplete="email" placeholder="name@example.com">
             </div>
             <p id="report-msg" class="msg hidden"></p>
             <div class="wiz-actions">
+              <button type="button" id="report-download" class="btn-ghost">Download PDF</button>
               <button type="submit" id="report-submit" class="btn-primary">Generate &amp; Send</button>
             </div>
           </div>
@@ -240,7 +241,7 @@
             <li><b>Charts:</b> weekly production, cumulative totals, work composition, and by-worksite bars.</li>
             <li><b>Equipment downtime:</b> the machine downtime log. It is line-level, so it turns off automatically when a single worksite is selected.</li>
           </ul>
-          <p>Type the recipient's email and tap <b>Generate &amp; Send</b>. The email field starts blank on purpose.</p>
+          <p>Tap <b>Download PDF</b> to save the report to your device, no mail server needed. To email it instead, type the recipient's address and tap <b>Generate &amp; Send</b>. The email field starts blank on purpose.</p>
         </section>
 
         <section class="help-sec">

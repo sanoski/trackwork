@@ -13,8 +13,9 @@ have backed up everything.
   which runs it comfortably).
 - A DNS name pointing at the host if you want browser-trusted HTTPS. Sign-in cookies are
   marked secure, so in production the app must be reached over HTTPS.
-- An SMTP account that can send mail (any Microsoft 365, Google Workspace, or hosted mailbox
-  works). You can add this later in the app.
+- Optional: an SMTP account that can send mail (any Microsoft 365, Google Workspace, or hosted
+  mailbox works). You can add this later in the app. Without it, reports are downloaded from
+  the wizard instead of emailed, and the weekly timer stays off.
 
 ## Path A: Docker (recommended)
 
@@ -94,7 +95,8 @@ After changing `.env`, restart: `docker compose up -d` or `sudo systemctl restar
 
 1. **Users & Settings, Email & Names.** Set the organisation name (it appears on the report),
    the SMTP server, the From address, and the recipients. Click **Send Test** and check the
-   inbox.
+   inbox. No mail server yet? Set the organisation name and move on; the Download PDF
+   button in the wizard works without one.
 2. **Users & Settings, Weekly Report.** Pick the day, time, and time zone. The default is
    Sunday at 08:00, which covers the Sunday-to-Saturday week that just ended.
 3. **Users.** Add accounts. Roles:
