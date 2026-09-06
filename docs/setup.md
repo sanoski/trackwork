@@ -9,7 +9,8 @@ have backed up everything.
 
 ## What you need
 
-- A Linux host (amd64 or arm64; a Raspberry Pi 5 runs it comfortably).
+- A Linux host (amd64 or arm64; the Docker image was built and tested on a Raspberry Pi 5,
+  which runs it comfortably).
 - A DNS name pointing at the host if you want browser-trusted HTTPS. Sign-in cookies are
   marked secure, so in production the app must be reached over HTTPS.
 - An SMTP account that can send mail (any Microsoft 365, Google Workspace, or hosted mailbox

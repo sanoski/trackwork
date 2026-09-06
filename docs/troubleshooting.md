@@ -73,7 +73,25 @@ for Azure). Fill them in or set `MCP_AUTH_PROVIDER=token`.
 
 ## Docker
 
-- **Caddy keeps restarting**: ports 80 or 443 are in use, or `TRACKWORK_DOMAIN` does not
-  resolve to this host. Check `docker compose logs caddy`.
+- **"bind: address already in use" when starting, or Caddy keeps restarting**: something on
+  the host already listens on port 80 or 443 (often another web server). Either stop it, or
+  move Caddy to other ports without editing the tracked files. Create
+  `docker-compose.override.yml` next to `docker-compose.yml`:
+
+  ```yaml
+  services:
+    caddy:
+      ports: !override
+        - "8080:80"
+        - "8443:443"
+  ```
+
+  Then `docker compose up -d` again. The app is now at `https://HOST:8443/`. If Caddy starts
+  but the site does not load, check that `TRACKWORK_DOMAIN` resolves to this host:
+  `docker compose logs caddy`.
+- **setup.sh stopped after creating the admin**: that is the same port clash, hit at the
+  final `docker compose up`. The admin account and any demo data were already written to
+  the volume, so fix the ports and run `docker compose up -d` yourself; do not rerun the
+  demo seed.
 - **Where is my data?** In the `trackwork-data` volume:
   `docker volume inspect trackwork-data`. See the backup commands in `setup.md`.
