@@ -79,7 +79,8 @@ deploy/setup.sh --demo
 
 The setup script writes `.env` with a fresh secret, builds the image, seeds a demo dataset,
 asks you to create the first admin account, and starts the app behind Caddy. Open
-`https://<your host>/` and sign in. Leave out `--demo` for an empty install.
+`https://<your host>/` and sign in. Leave out `--demo` for an empty install; if you used it and
+later import real data, add `--replace` to the import so the sample railroad is removed.
 
 Then, in the app, open **Users & Settings**:
 

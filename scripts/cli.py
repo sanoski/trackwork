@@ -778,12 +778,23 @@ def cmd_schedule(args) -> None:
 
 def cmd_import(args) -> None:
     """Copy a data bundle (projects/, archived/, users.json, settings.json, config.json) into
-    DATA_DIR. Existing top-level files are kept unless --overwrite is given."""
+    DATA_DIR. Existing top-level files are kept unless --overwrite is given. --replace first
+    removes every project already in DATA_DIR (for example the demo dataset), so the bundle
+    is the only data afterwards; accounts are never touched."""
     src = Path(args.bundle)
     if not src.is_dir():
         _die(f"'{src}' is not a directory")
     root = env_settings._data_root()
     copied = []
+    if getattr(args, "replace", False):
+        removed = 0
+        for sub in ("projects", "archived"):
+            d = root / sub
+            if d.is_dir():
+                for f in d.glob("*.json"):
+                    f.unlink()
+                    removed += 1
+        print(f"Removed {removed} existing project file(s) from {root}")
     for sub in ("projects", "archived"):
         d = src / sub
         if d.is_dir():
@@ -1084,6 +1095,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_imp = sub.add_parser("import", help="Copy a data bundle (projects/, archived/, users.json, settings.json) into DATA_DIR")
     p_imp.add_argument("bundle", help="Directory to import from")
     p_imp.add_argument("--overwrite", action="store_true", help="Replace existing users/settings/config files")
+    p_imp.add_argument("--replace", action="store_true",
+                       help="Remove every existing project first (clears the demo data); accounts are kept")
     sub.add_parser("verify", help="Load every project and print counts")
 
     p_tok = sub.add_parser("token", help="Per-user tokens for the MCP (AI assistant) server")

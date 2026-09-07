@@ -115,7 +115,7 @@ Prefer the prompt (`user add` without `--password`, `user update --set-password`
 ## Install and data
 
 ```bash
-scripts/cli.py import /path/to/bundle [--overwrite]   # copy projects/, archived/, users.json, settings.json, config.json into DATA_DIR
+scripts/cli.py import /path/to/bundle [--overwrite] [--replace]   # copy projects/, archived/, users.json, settings.json, config.json into DATA_DIR; --replace clears existing projects first (demo data)
 scripts/cli.py verify                                 # load every project, print counts
 ```
 

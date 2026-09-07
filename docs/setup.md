@@ -119,8 +119,10 @@ docker compose run --rm -v /path/to/bundle:/seed:ro web python scripts/cli.py im
 ```
 
 `--overwrite` replaces `users.json`, `settings.json`, and `config.json` if they already exist;
-project files are always copied. Then run `scripts/cli.py verify` to load every project and
-print its counts.
+project files are always copied. Add `--replace` to remove every project already in the data
+directory first. Do this if you installed with `--demo`: the sample railroad must not sit
+beside real data, or two projects would be active at once. Accounts are never touched by an
+import. Then run `scripts/cli.py verify` to load every project and print its counts.
 
 ## Backups
 

@@ -6,7 +6,8 @@ switches, a derail, and some downtime) and Project 1187 (a finished sponsored jo
 its goal). Every name and number is made up.
 
 Seed it during install with `deploy/setup.sh --demo`, or later with
-`scripts/cli.py import demo/data --overwrite`. No accounts are included; setup always asks
+`scripts/cli.py import demo/data --overwrite`. To get rid of it again, import your real data
+with `--replace`, which removes every existing project first and keeps your accounts. No accounts are included; setup always asks
 you to create the real first admin.
 
 The dates are anchored to the week before the dataset was generated. To refresh them, run
