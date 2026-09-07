@@ -95,5 +95,11 @@ for Azure). Fill them in or set `MCP_AUTH_PROVIDER=token`.
   final `docker compose up`. The admin account and any demo data were already written to
   the volume, so fix the ports and run `docker compose up -d` yourself; do not rerun the
   demo seed.
+- **Caddy logs "obtaining certificate" errors, or the browser cannot connect over HTTPS**:
+  Let's Encrypt could not reach the host name. Check that the DNS record points at this
+  machine's public address (`dig +short mow.example.com` from outside), that ports 80 and 443
+  are forwarded to it, and that `TRACKWORK_DOMAIN` in `.env` matches the record exactly.
+  Caddy retries on its own once those are right; no certificate is ever bought or installed
+  by hand.
 - **Where is my data?** In the `trackwork-data` volume:
   `docker volume inspect trackwork-data`. See the backup commands in `setup.md`.

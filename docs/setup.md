@@ -74,6 +74,29 @@ docker compose up -d
 
 Your data is in the `trackwork-data` volume and survives rebuilds.
 
+### HTTPS and certificates
+
+You do not buy or install a certificate. The bundled Caddy web server gets one from Let's
+Encrypt, a free public certificate authority, the first time it starts with a real host name,
+and renews it on its own every couple of months for as long as the app runs. Browsers trust
+these certificates exactly like paid ones. There is no account to create and nothing to
+remember later.
+
+Two things have to be true for that to work:
+
+1. **The host name resolves to this machine.** Create a DNS record (for example
+   `mow.example.com`) pointing at the server's public address before you run setup, and
+   answer setup's host name question with that name. It lands in `TRACKWORK_DOMAIN` in `.env`.
+2. **Ports 80 and 443 are reachable from the internet.** Let's Encrypt proves you control the
+   name by connecting to it. Behind an office firewall or router, forward both ports to the
+   server.
+
+If either is missing, Caddy keeps retrying and logs why: `docker compose logs caddy`. Until it
+succeeds the site is not reachable over HTTPS, and the app requires HTTPS in production.
+
+For a trial with no public name, answer `localhost`. Caddy then signs a certificate itself;
+your browser will warn once, which is expected, and `https://localhost/` works.
+
 ### Behind your own reverse proxy
 
 If you already terminate HTTPS elsewhere, remove the `caddy` service from

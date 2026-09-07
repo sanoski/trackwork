@@ -86,7 +86,8 @@ optional: without a mail server the app still builds every report for download.
 ## Quick start (Docker)
 
 You need a Linux host with Docker and Docker Compose, and a host name that points at it if
-you want HTTPS from Let's Encrypt. For a trial on a laptop, `localhost` works.
+you want HTTPS from Let's Encrypt (free, automatic, renews itself). For a trial on a laptop,
+`localhost` works.
 
 ```bash
 git clone https://github.com/sanoski/trackwork.git
