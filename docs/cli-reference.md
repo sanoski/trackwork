@@ -68,7 +68,7 @@ scripts/cli.py create WACR_CRD "WACR Connecticut River Division" --kind company 
 scripts/cli.py update 942 --goal 7549
 scripts/cli.py set-status WACR_CRD active      # demotes the previous active project to complete
 scripts/cli.py archive 942
-scripts/cli.py export --output mow.db [--year 2026]
+scripts/cli.py export --output mow.db [--year 2026]   # SQLite copy; --year keeps that year's entries only (default name season_<year>.db)
 ```
 
 ## Reports

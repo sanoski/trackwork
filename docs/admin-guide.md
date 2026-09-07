@@ -86,6 +86,25 @@ quick check after a restore.
 Project files are plain JSON, one per project. Avoid editing them by hand; every write
 through the app recalculates running totals, and hand edits do not.
 
+## End of a season
+
+Tie work runs in seasons, and the app is built to start each one clean without losing the
+last. When the gang wraps up for the year:
+
+1. **Archive the finished projects.** Projects, then **Archive** on each one (or
+   `scripts/cli.py archive <id>`). They leave the sidebar but stay on disk under
+   `DATA_DIR/archived/`, still exportable and still importable elsewhere.
+2. **Export the season to SQLite** for the office or for anyone with a spreadsheet:
+   `scripts/cli.py export --year 2026` writes `season_2026.db` with every project, worksite,
+   daily count, downtime entry, switch, and derail from that year, archived projects
+   included. Keep it with the backups.
+3. **Create next season's projects** under Projects and set one active. Worksites belong to a
+   project, so a company line that continues can simply stay as it is; only sponsored jobs
+   with a goal usually get a fresh project each year.
+
+Size is not a concern. A full season for a line is a few tens of kilobytes, and every
+project is loaded on its own, so years of archived seasons cost nothing at all in speed.
+
 ## Public read
 
 `PUBLIC_READ=true` in `.env` lets anyone with the URL see the dashboard and reports without
