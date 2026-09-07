@@ -17,6 +17,27 @@ have backed up everything.
   mailbox works). You can add this later in the app. Without it, reports are downloaded from
   the wizard instead of emailed, and the weekly timer stays off.
 
+## Where to run it
+
+Anywhere a Linux box with Docker can sit behind a host name. The app is small (one container,
+under a gigabyte of memory with the PDF renderer) and its data is a single directory, so the
+choice is about who looks after the machine, not about capacity.
+
+- **A server your organisation already runs.** The usual choice. Follow Path A below.
+- **A rented virtual server (VPS).** Any cloud provider's smallest Linux VM with 1 GB of memory
+  is enough. Point a DNS name at it, open ports 80 and 443, run Path A. Back up the data volume
+  off the machine (see Backups).
+- **A small computer in the office**, such as a Raspberry Pi 5. The image builds on arm64 and
+  this is how the project was developed. For access from outside the office you need either a
+  port forward with a DNS name, or a tunnel service that publishes a local port on a public
+  host name; the app does not care which.
+- **Your own reverse proxy or HTTPS setup.** Drop the bundled Caddy and proxy to port 8000; see
+  "Behind your own reverse proxy" below.
+
+Whichever you pick, the requirements are the same: a host name, HTTPS in front (sign-in
+cookies are marked secure), one running copy of the app (the weekly timer must not be
+duplicated), and a backup of the data directory.
+
 ## Path A: Docker (recommended)
 
 ```bash

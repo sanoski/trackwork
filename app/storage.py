@@ -112,19 +112,19 @@ def record_daily_count(project: Project, entry_date: date, ties: int,
     else:
         if track is None:
             raise ValueError(
-                f"A daily entry for {entry_date} already exists. Use update_daily_count to correct "
-                f"it, or pass a track to add another track's ties to that day.")
+                f"A daily entry for {entry_date} already exists. Correct that day instead of adding it again, "
+                f"or pass a track to add another track's ties to that day.")
         if not existing.tracks:
             raise ValueError(
-                f"{entry_date} already has untracked ties; correct it with update_daily_count "
+                f"{entry_date} already has untracked ties; correct that day (give it a track) "
                 f"before adding per-track entries.")
         if any(t.track.lower() == track.lower() for t in existing.tracks):
             raise ValueError(
-                f"{entry_date} already has an entry for track '{track}'. Use update_daily_count to correct it.")
+                f"{entry_date} already has an entry for track '{track}'. Correct that entry instead.")
         if loc_id is not None and existing.location is not None and loc_id != existing.location:
             raise ValueError(
                 f"{entry_date} is already logged at a different location, a day is worked at one site. "
-                f"Use update_daily_count to move the whole day.")
+                f"Correct the day to move all of it.")
         if loc_id is not None and existing.location is None:
             existing.location = loc_id   # backfill when the first track-add omitted the location
         existing.tracks.append(TrackSplit(track=track, ties=ties, relay_ties=relay_ties))

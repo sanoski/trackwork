@@ -122,7 +122,8 @@ If you would rather have an AI assistant walk you through it, paste
 | [docs/admin-guide.md](docs/admin-guide.md) | the admin: users, email, schedule, projects, backups |
 | [docs/reports.md](docs/reports.md) | anyone who wants to know what the PDF says and how to shape it |
 | [docs/mcp-and-claude.md](docs/mcp-and-claude.md) | connecting Claude, and the full tool list |
-| [docs/cli-reference.md](docs/cli-reference.md) | using the command line |
+| [docs/cli-tutorial.md](docs/cli-tutorial.md) | new to the command line and want a friendly walk-through |
+| [docs/cli-reference.md](docs/cli-reference.md) | using the command line and want the terse version |
 | [docs/architecture.md](docs/architecture.md) | a developer changing the code |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | stuck |
 

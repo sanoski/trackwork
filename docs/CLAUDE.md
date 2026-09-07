@@ -12,6 +12,7 @@
 | `admin-guide.md` | the admin | `app/routes/admin.py`, `app/static/js/admin.js`, `projects_admin.js` |
 | `reports.md` | anyone reading the PDF | `app/reporting/` |
 | `mcp-and-claude.md` | whoever connects Claude | `mcp_server/` |
+| `cli-tutorial.md` | command line beginners, a guided tour with real output | `scripts/cli.py` (outputs are pasted from a demo run; refresh when they change) |
 | `cli-reference.md` | command line users | `scripts/cli.py` (every command listed) |
 | `architecture.md` | developers | the directory CLAUDE.md files |
 | `troubleshooting.md` | anyone stuck | error strings in the services and routes |
