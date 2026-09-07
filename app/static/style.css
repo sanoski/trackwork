@@ -850,6 +850,10 @@ tbody td { padding: 0.55rem 0.9rem; color: var(--text); }
 body.can-write #manage-section { display: flex; flex-direction: column; gap: .25rem; }
 body.can-write .writer-only { display: flex; }
 body.is-admin .admin-only { display: flex; }
+/* Outrank later single-class rules (.nav-btn sets display: flex) so a non-admin never sees
+   admin buttons and a viewer never sees writer controls. */
+body:not(.is-admin) .admin-only { display: none !important; }
+body:not(.can-write) .writer-only, body:not(.can-write) #manage-section { display: none !important; }
 body:not(.can-write) .row-act, body:not(.can-write) .row-actions, body:not(.can-write) .entity-actions { display: none !important; }
 
 /* ── Sidebar Manage section ───────────────────────────────────────────────────────── */

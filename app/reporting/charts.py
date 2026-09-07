@@ -141,7 +141,7 @@ def stacked_bar(segments, *, width=340, height=64) -> str:
             parts.append(f'<text x="{x+w/2:.1f}" y="{bar_y+bar_h/2+3:.1f}" '
                          f'text-anchor="middle" style="font-size:9px;fill:#fff">{_fmt(v)}</text>')
         x += w
-    # legend, wraps to a second row if needed
+    # legend, wraps to further rows if needed; the SVG grows so no row is ever clipped
     lx, ly = lm, bar_y + bar_h + 16
     for lab, v, color in segments:
         label = f"{lab} {_fmt(v)}"
@@ -151,4 +151,4 @@ def stacked_bar(segments, *, width=340, height=64) -> str:
         parts.append(f'<rect x="{lx}" y="{ly-7}" width="9" height="9" rx="1.5" fill="{color}"/>')
         parts.append(f'<text x="{lx+13}" y="{ly}" class="lg">{escape(label)}</text>')
         lx += seg_w
-    return _svg(width, height, "".join(parts))
+    return _svg(width, max(height, ly + 6), "".join(parts))

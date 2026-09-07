@@ -70,7 +70,7 @@ h1, h2, h3, h4, .wordmark { font-family: "Oswald", "DejaVu Sans", sans-serif; fo
 .chart h4 { color: #66727f; font-size: 8pt; text-transform: uppercase; letter-spacing: .03em; margin: 0 0 3pt; font-weight: 600; }
 
 /* Section headings */
-.sec-h { color: #66727f; font-size: 9pt; text-transform: uppercase; letter-spacing: .03em; margin: 9pt 0 3pt; font-weight: 700; }
+.sec-h { color: #66727f; font-size: 9pt; text-transform: uppercase; letter-spacing: .03em; margin: 9pt 0 3pt; font-weight: 700; page-break-after: avoid; break-after: avoid; }
 
 /* Tables */
 table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }

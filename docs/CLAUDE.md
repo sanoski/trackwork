@@ -23,3 +23,5 @@
   project" for the two kinds.
 - A new route, tool, or command is not done until it appears in its reference page.
 - Commands in fenced blocks; nothing a reader must type lives only in prose.
+
+`images/` holds the README screenshots and `sample-report*.pdf` the demo-data PDFs. Regenerate them from a demo instance (never from real data) when the screens change.

@@ -9,6 +9,23 @@ to remember.
 
 Built by Peaches for the VRS MOW crew.
 
+
+## What it looks like
+
+| The dashboard | The report wizard, with live preview |
+|---|---|
+| ![Dashboard](docs/images/dashboard.png) | ![Report wizard](docs/images/report-wizard.png) |
+
+| On a phone | Logging a day |
+|---|---|
+| ![Phone dashboard](docs/images/phone-dashboard.png) | ![Log Work on a phone](docs/images/phone-log-work.png) |
+
+The weekly PDF, page one ([full sample](docs/sample-report.pdf), and a
+[sponsored project sample](docs/sample-report-sponsored.pdf)). All screenshots use the
+fictional demo railroad that ships with the repo.
+
+![Weekly report, page one](docs/images/report-page-1.png)
+
 ## Three ways in, one source of truth
 
 Every way of entering data calls the same service code and writes the same files, so it does
